@@ -18,11 +18,7 @@ const loginPaths = {
 // ----------------------------------------------------------------------
 
 export default function AuthGuard({ children }) {
-  // const { loading } = useAuthContext();
-  const router = useRouter();
-  const navigate = useNavigate();
   const session = sessionStorage.getItem('vendor');
-  console.log(typeof session);
   return <>{session ? children : <Navigate to={'/login'} />}</>;
 }
 

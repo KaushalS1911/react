@@ -16,22 +16,34 @@ import RHFAutocomplete from '../../hook-form/rhf-autocomplete';
 
 export default function UserNewEditForm({ vendorCode, vendorContact }) {
   const [currentUser, setCurrentUser] = useState();
+  const [commodities, setCommodities] = useState([]);
   const notify = () => toast.success('User details updated successfully');
   const notifyError = () => toast.error('Something went wrong');
 
   useEffect(() => {
+    fetchUser();
+    fetchCommodities();
+  }, [vendorContact]);
+
+
+  function fetchUser() {
     if (vendorContact) {
       axios
         .get(
-          `http://ec2-54-173-125-80.compute-1.amazonaws.com:8080//nccf/csp_detail/${vendorContact}`
+          `http://ec2-54-173-125-80.compute-1.amazonaws.com:8080//nccf/csp_detail/${vendorContact}`,
         )
         .then((res) => {
-          console.log(res);
           setCurrentUser(res?.data?.data[0]);
         })
         .catch((error) => console.log(error));
     }
-  }, []);
+  }
+
+  function fetchCommodities() {
+    axios.get(`http://ec2-54-173-125-80.compute-1.amazonaws.com:8080/nccf/commodity`).then((res) => {
+      setCommodities(res.data?.data);
+    });
+  }
 
   const defaultValues = {
     address: '',
@@ -80,7 +92,9 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
   }, [currentUser, reset, vendorContact]);
 
   const milingType = ['Dry', 'Wet', 'Both'];
-  const commodity = ['Rice', 'Wheat', 'Oats'];
+  const states = ['Gujarat', 'Delhi', 'Punjab'];
+  const districts = ['Amreli', 'Surendranagar', 'Dhrol'];
+  const villages = ['Surat', 'Bharuch', 'Rohini'];
 
   const onSubmit = handleSubmit(async (data) => {
     const payload = {
@@ -91,7 +105,6 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
     axios
       .put('http://ec2-54-173-125-80.compute-1.amazonaws.com:8080/nccf/csp/update_info', payload)
       .then((res) => {
-        console.log('Hello I am running', res);
         notify();
       })
       .catch((err) => notifyError());
@@ -100,7 +113,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
   return (
     <>
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <ToastContainer />
+        <ToastContainer/>
         <Grid container>
           <Grid item md={4}>
             <Box sx={{ ml: { md: '60px', xs: '0' }, mt: '60px' }}>
@@ -131,7 +144,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                   md: 'repeat(3, 1fr)',
                 }}
               >
-                <RHFTextField name="name" label="Full Name" />
+                <RHFTextField name="name" label="Full Name"/>
                 <RHFAutocomplete
                   name="milling_type"
                   type="milling_type"
@@ -147,14 +160,14 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                   label="Commodity"
                   placeholder="Choose Commodity"
                   fullWidth
-                  options={commodity.map((option) => option)}
+                  options={commodities.map((option) => option?.commodity_name)}
                   getOptionLabel={(option) => option}
                 />
-                <RHFTextField name="quantity" label="Quantity" />
-                <RHFTextField name="contact_person" label="Contact Person" />
-                <RHFTextField name="phone_number" label="Phone Number" />
-                <RHFTextField name="pan_number" label="Pan Number" />
-                <RHFTextField name="gst_number" label="GST Number" />
+                <RHFTextField name="quantity" label="Quantity"/>
+                <RHFTextField name="contact_person" label="Contact Person"/>
+                <RHFTextField name="phone_number" label="Phone Number"/>
+                <RHFTextField name="pan_number" label="Pan Number"/>
+                <RHFTextField name="gst_number" label="GST Number"/>
               </Box>
             </Card>
           </Grid>
@@ -190,7 +203,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                 }}
               >
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 2', md: 'span 4' }}>
-                  <RHFTextField name="address" label="Address" fullWidth />
+                  <RHFTextField name="address" label="Address" fullWidth/>
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
                   <RHFAutocomplete
@@ -199,7 +212,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                     label="District"
                     placeholder="Choose District"
                     fullWidth
-                    options={commodity.map((option) => option)}
+                    options={districts.map((option) => option)}
                     getOptionLabel={(option) => option}
                   />
                 </Box>
@@ -210,12 +223,12 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                     label="State"
                     placeholder="Choose Your State"
                     fullWidth
-                    options={commodity.map((option) => option)}
+                    options={states.map((option) => option)}
                     getOptionLabel={(option) => option}
                   />
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
-                  <RHFTextField name="pincode" label="Pin Code" fullWidth />
+                  <RHFTextField name="pincode" label="Pin Code" fullWidth/>
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
                   <RHFAutocomplete
@@ -224,7 +237,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                     label="Village"
                     placeholder="Choose Your Village"
                     fullWidth
-                    options={commodity.map((option) => option)}
+                    options={villages.map((option) => option)}
                     getOptionLabel={(option) => option}
                   />
                 </Box>

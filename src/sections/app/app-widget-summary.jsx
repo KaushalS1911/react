@@ -11,49 +11,45 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function AppWidgetSummary({ title, percent, total, chart, sx, ...other }) {
+export default function AppWidgetSummary({ title, total, sx, ...other }) {
   const theme = useTheme();
 
-  const {
-    colors = [theme.palette.primary.light, theme.palette.primary.main],
-    series,
-    options,
-  } = chart;
 
-  const chartOptions = {
-    colors,
-    fill: {
-      type: 'gradient',
-      gradient: {
-        colorStops: [
-          { offset: 0, color: colors[0], opacity: 1 },
-          { offset: 100, color: colors[1], opacity: 1 },
-        ],
-      },
-    },
-    chart: {
-      sparkline: {
-        enabled: true,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '68%',
-        borderRadius: 2,
-      },
-    },
-    tooltip: {
-      x: { show: false },
-      y: {
-        formatter: (value) => fNumber(value),
-        title: {
-          formatter: () => '',
-        },
-      },
-      marker: { show: false },
-    },
-    ...options,
-  };
+
+  // const chartOptions = {
+  //   colors,
+  //   fill: {
+  //     type: 'gradient',
+  //     gradient: {
+  //       colorStops: [
+  //         { offset: 0, color: colors[0], opacity: 1 },
+  //         { offset: 100, color: colors[1], opacity: 1 },
+  //       ],
+  //     },
+  //   },
+  //   chart: {
+  //     sparkline: {
+  //       enabled: true,
+  //     },
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       columnWidth: '68%',
+  //       borderRadius: 2,
+  //     },
+  //   },
+  //   tooltip: {
+  //     x: { show: false },
+  //     y: {
+  //       formatter: (value) => fNumber(value),
+  //       title: {
+  //         formatter: () => '',
+  //       },
+  //     },
+  //     marker: { show: false },
+  //   },
+  //   ...options,
+  // };
 
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
@@ -61,36 +57,36 @@ export default function AppWidgetSummary({ title, percent, total, chart, sx, ...
         <Typography variant="subtitle2">{title}</Typography>
 
         <Stack direction="row" alignItems="center" sx={{ mt: 2, mb: 1 }}>
-          <Iconify
-            width={24}
-            icon={
-              percent < 0
-                ? 'solar:double-alt-arrow-down-bold-duotone'
-                : 'solar:double-alt-arrow-up-bold-duotone'
-            }
-            sx={{
-              mr: 1,
-              color: percent < 0 ? 'error.main' : 'success.main',
-            }}
-          />
+          {/*<Iconify*/}
+          {/*  width={24}*/}
+          {/*  icon={*/}
+          {/*    percent < 0*/}
+          {/*      ? 'solar:double-alt-arrow-down-bold-duotone'*/}
+          {/*      : 'solar:double-alt-arrow-up-bold-duotone'*/}
+          {/*  }*/}
+          {/*  sx={{*/}
+          {/*    mr: 1,*/}
+          {/*    color: percent < 0 ? 'error.main' : 'success.main',*/}
+          {/*  }}*/}
+          {/*/>*/}
 
-          <Typography component="div" variant="subtitle2">
-            {percent > 0 && '+'}
-            {fPercent(percent)}
-          </Typography>
+          {/*<Typography component="div" variant="subtitle2">*/}
+          {/*  {percent > 0 && '+'}*/}
+          {/*  {fPercent(percent)}*/}
+          {/*</Typography>*/}
         </Stack>
 
         <Typography variant="h3">{fNumber(total)}</Typography>
       </Box>
 
-      <Chart
-        dir="ltr"
-        type="bar"
-        series={[{ data: series }]}
-        options={chartOptions}
-        width={60}
-        height={36}
-      />
+      {/*<Chart*/}
+      {/*  dir="ltr"*/}
+      {/*  type="bar"*/}
+      {/*  series={[{ data: series }]}*/}
+      {/*  options={chartOptions}*/}
+      {/*  width={60}*/}
+      {/*  height={36}*/}
+      {/*/>*/}
     </Card>
   );
 }

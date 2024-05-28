@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
       const accessToken = sessionStorage.getItem(STORAGE_KEY);
 
       if (accessToken) {
-        await setSession(accessToken);
+        // await setSession(accessToken);
         setLoading(false);
       }
     } catch (error) {

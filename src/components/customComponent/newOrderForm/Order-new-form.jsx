@@ -1,4 +1,3 @@
-// import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useMemo, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -14,9 +13,11 @@ import { Container } from '@mui/material';
 import FormProvider from '../../hook-form';
 import RHFTextField from '../../hook-form/rhf-text-field';
 import { useSettingsContext } from '../../settings';
+import RHFAutocomplete from '../../hook-form/rhf-autocomplete';
 
 export default function OrderNewForm() {
   const [vendorCode, setVendorCode] = useState('');
+  const [commodities, setCommodities] = useState([])
   const settings = useSettingsContext();
 
   const notify = () => toast.success('Order created');
@@ -25,7 +26,14 @@ export default function OrderNewForm() {
   const storedVendorCode = sessionStorage.getItem('vendor');
   useEffect(() => {
     setVendorCode(storedVendorCode || '');
+    fetchCommodities()
   }, []);
+
+  function fetchCommodities() {
+    axios.get(`http://ec2-54-173-125-80.compute-1.amazonaws.com:8080/nccf/commodity`).then((res) => {
+      setCommodities(res.data?.data)
+    })
+  }
 
   const defaultValues = useMemo(
     () => ({
@@ -40,12 +48,7 @@ export default function OrderNewForm() {
   });
 
   const {
-    // reset,
-    // watch,
-    // setValue,
     handleSubmit,
-    // control,
-    // formState: { isSubmitting },
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
@@ -53,7 +56,7 @@ export default function OrderNewForm() {
       ...data,
       vendor_code: vendorCode,
       mode: 'test',
-      status: '1',
+      status: '0',
     };
     try {
       const response = await axios.post(
@@ -103,7 +106,15 @@ export default function OrderNewForm() {
                       }}
                     >
                       {/* <RHFTextField name="vendor_code" label="VendorCode" value={vendorCode} /> */}
-                      <RHFTextField name="commodity" label="Commodity" />
+                        <RHFAutocomplete
+                          name="commodity"
+                          type="commodity"
+                          label="Commodity"
+                          placeholder="Choose Commodity"
+                          fullWidth
+                          options={commodities.map((option) => option?.commodity_name)}
+                          getOptionLabel={(option) => option}
+                        />
                       <RHFTextField name="quantity" label="Quantity" />
                     </Box>
                   </Stack>

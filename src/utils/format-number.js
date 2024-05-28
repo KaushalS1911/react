@@ -25,7 +25,7 @@ function getLocaleCode() {
 export function fNumber(inputValue) {
   const { code } = getLocaleCode();
 
-  if (!inputValue) return '';
+  if (!inputValue) return '0';
 
   const number = Number(inputValue);
 

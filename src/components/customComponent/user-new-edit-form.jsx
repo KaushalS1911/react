@@ -1,20 +1,12 @@
-// import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import { paths } from 'src/routes/paths';
-// import { fData } from 'src/utils/format-number';
-// import { countries } from 'src/assets/data';
-// import Label from 'src/components/label';
-// import { useSnackbar } from 'src/components/snackbar';
 import FormProvider from '../../components/hook-form';
 import RHFTextField from '../../components/hook-form/rhf-text-field';
 import RHFAutocomplete from '../../components/hook-form/rhf-autocomplete';
@@ -28,8 +20,8 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
 
   useEffect(() => {
     if(vendorContact){
-      axios.get(`http://ec2-54-173-125-80.compute-1.amazonaws.com:8080/nccf/csp_detail/${vendorContact}`).then((res) => {
-        setCurrentUser(res?.data);
+      axios.get(`http://ec2-54-173-125-80.compute-1.amazonaws.com:8080//nccf/csp_detail/${vendorContact}`).then((res) => {
+        setCurrentUser(res?.data.data[0]);
       }).catch((error) => console.log(error));
     }
   },[vendorContact]);
@@ -76,7 +68,6 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
         payload
       )
       .then((res) => {
-        console.log("Hello I am running",res)
         notify()
       })
       .catch((err) =>

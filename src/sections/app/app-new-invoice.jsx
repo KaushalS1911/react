@@ -34,7 +34,7 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
-              {tableData.map((row) => (
+              {tableData && tableData.length !==0 && tableData.map((row) => (
                 <AppNewInvoiceRow key={row.id} row={row} />
               ))}
             </TableBody>
@@ -67,6 +67,7 @@ AppNewInvoice.propTypes = {
 // ----------------------------------------------------------------------
 
 function AppNewInvoiceRow({ row }) {
+
   const popover = usePopover();
 
   const handleDownload = () => {
@@ -92,22 +93,21 @@ function AppNewInvoiceRow({ row }) {
   return (
     <>
       <TableRow>
-        <TableCell>{row.invoiceNumber}</TableCell>
+        <TableCell>{row.id}</TableCell>
 
-        <TableCell>{row.category}</TableCell>
+        <TableCell>{row.commodity}</TableCell>
 
-        <TableCell>{fCurrency(row.price)}</TableCell>
+        <TableCell>{(row.quantity)}</TableCell>
 
         <TableCell>
           <Label
             variant="soft"
             color={
-              (row.status === 'progress' && 'warning') ||
-              (row.status === 'out of date' && 'error') ||
+              (row.status === '0' && 'warning') ||
               'success'
             }
           >
-            {row.status}
+            {row.status === "0" ? "Pending" : "Paid"}
           </Label>
         </TableCell>
 
