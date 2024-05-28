@@ -29,8 +29,8 @@ export default function UploadDocument() {
   const settings = useSettingsContext();
   const [vendorCode, setVendorCode] = useState('');
   const [files, setFiles] = useState([]);
-  const notify = () => toast.success('Order created');
-  const notifyError = () => toast.error('Order not created');
+  const notify = () => toast.success('Document uploaded successfully');
+  const notifyError = () => toast.error('Something went wrong');
 
   const defaultValues = useMemo(
     () => ({
