@@ -30,7 +30,7 @@ export default function UploadDocument() {
   const [vendorCode, setVendorCode] = useState('');
   const [files, setFiles] = useState([]);
   const notify = () => toast.success('Document uploaded successfully');
-  const notifyError = () => toast.error('Something went wrong');
+  const notifyError = () => toast.error('Something went wrong.');
 
   const defaultValues = useMemo(
     () => ({
