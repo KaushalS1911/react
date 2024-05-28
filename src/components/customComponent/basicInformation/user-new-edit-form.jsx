@@ -163,7 +163,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                   options={commodities.map((option) => option?.commodity_name)}
                   getOptionLabel={(option) => option}
                 />
-                <RHFTextField name="quantity" label="Quantity"/>
+                <RHFTextField name="quantity" label="Quantity" />
                 <RHFTextField name="contact_person" label="Contact Person"/>
                 <RHFTextField name="phone_number" label="Phone Number"/>
                 <RHFTextField name="pan_number" label="Pan Number"/>
