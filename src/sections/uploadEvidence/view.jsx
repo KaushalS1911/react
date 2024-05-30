@@ -28,11 +28,13 @@ export default function UploadDocument() {
 
   const defaultValues = useMemo(
     () => ({
+
       doc_type_0: '',
       doc_type_1: '',
       doc_type_2: '',
       doc_type_3: '',
       doc_type_4: '',
+
     }),
     []
   );
