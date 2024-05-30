@@ -1,1 +1,0 @@
-import{j as r,H as e}from"./index-MKkVIcob.js";import{O as t}from"./Order-new-form-NSmV3Gl5.js";import"./rhf-text-field-hrfOLSRX.js";import"./rhf-autocomplete-1pSaGbEg.js";import"./InputAdornment-UsE8SrSQ.js";function n(){return r.jsxs(r.Fragment,{children:[r.jsx(e,{children:r.jsx("title",{children:" Dashboard: Place Order"})}),r.jsx(t,{})]})}export{n as default};

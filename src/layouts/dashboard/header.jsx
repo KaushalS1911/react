@@ -36,12 +36,12 @@ export default function Header({ onOpenNav }) {
           <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" />
         </IconButton>
       )}
-      <img
-        src={mdDown ? mobileLogo : img}
-        height={72}
-        alt="Header Image"
-        style={{ margin: '20px' }}
-      />
+      {/*<img*/}
+      {/*  src={mdDown ? mobileLogo : img}*/}
+      {/*  height={72}*/}
+      {/*  alt="Header Image"*/}
+      {/*  style={{ margin: '20px' }}*/}
+      {/*/>*/}
       <Stack
         flexGrow={1}
         direction="row"

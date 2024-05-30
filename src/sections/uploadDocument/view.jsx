@@ -4,33 +4,25 @@ import Typography from '@mui/material/Typography';
 import { useSettingsContext } from 'src/components/settings';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
-import uploadImg from '../../assets/images/uploadDocImg/upload.jpg';
 import Stack from '@mui/material/Stack';
 import { ToastContainer, toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
 import {
-  Button,
-  List,
-  ListItem,
-  ListItemText,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
 } from '@mui/material';
-import { useDropzone } from 'react-dropzone';
-import { RHFTextField } from 'src/components/hook-form';
-import FormProvider from 'src/components/hook-form/form-provider'; // Adjust the import path as needed
+import FormProvider from 'src/components/hook-form/form-provider';
 import axios from 'axios';
-// import RHFAutocomplete from 'src/components/hook-form/rhf-autocomplete';
-import { LoadingButton } from '@mui/lab';
+import { Upload } from 'src/components/upload';
 // ----------------------------------------------------------------------
 export default function UploadDocument() {
   const settings = useSettingsContext();
   const [vendorCode, setVendorCode] = useState('');
   const [files, setFiles] = useState([]);
-  const notify = () => toast.success('Document uploaded successfully');
-  const notifyError = () => toast.error('Something went wrong.');
+  const notify = () => toast.success('Duments Uploaded');
+  const notifyError = () => toast.error('Failed to Upload');
 
   const defaultValues = useMemo(
     () => ({
@@ -45,15 +37,9 @@ export default function UploadDocument() {
   });
 
   const {
-    // reset,
-    // watch,
-    // setValue,
     handleSubmit,
     control,
-    // formState: { isSubmitting },
   } = methods;
-
-  // const values = watch();
 
   const storedVendorCode = sessionStorage.getItem('vendor');
   useEffect(() => {
@@ -91,32 +77,34 @@ export default function UploadDocument() {
     { label: 'Aadhar', key: 'aadhar' },
     { label: 'Certificates', key: 'certificates' },
     { label: 'Gst Number', key: 'gst_number' },
-    { label: 'Milling Unit Photo', key: 'milling_unit_photo' },
-    { label: 'Milling Unit Video', key: 'milling_unit_video' },
     { label: 'Pan Number', key: 'pan_number' },
   ];
 
-  const onDrop = useCallback((acceptedFiles) => {
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-  }, []);
+    const handleDropMultiFile = useCallback(
+      (acceptedFiles) => {
+        setFiles([
+          ...files,
+          ...acceptedFiles.map((newFile) =>
+            Object.assign(newFile, {
+              preview: URL.createObjectURL(newFile),
+            })
+          ),
+        ]);
+      },
+      [files]
+    );
 
-  const removeFile = (fileName) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
-  };
+   const handleRemoveFile = (inputFile) => {
+     const filesFiltered = files.filter((fileFiltered) => fileFiltered !== inputFile);
+     setFiles(filesFiltered);
+   };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: 'image/*,application/pdf',
-  });
+   const handleRemoveAllFiles = () => {
+     setFiles([]);
+   };
 
   const renderDetails = (
     <>
-      {/* <Typography variant="h6" sx={{ mb: 0.5 }}>
-        Details
-      </Typography>
-      <Typography variant="body2" sx={{ color: 'text.secondary', mb: '20px' }}>
-        Title, short description, image...
-      </Typography> */}
       <Card>
         <Stack spacing={3} sx={{ p: 3 }}>
           <Stack spacing={1.5}>
@@ -149,60 +137,16 @@ export default function UploadDocument() {
               {/* <RHFTextField name="vendor_code" label="Vendor Code" value={vendorCode} disabled /> */}
             </Box>
             <Typography variant="subtitle2">Upload Your Document</Typography>
-            <Box
-              {...getRootProps()}
-              sx={{
-                border: '2px dashed #CCCCCC',
-                borderRadius: '5px',
-                padding: '16px',
-                textAlign: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              <input {...getInputProps()} name="file" />
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Typography variant="h6" gutterBottom sx={{ width: '350px' }}>
-                  <img src={uploadImg} alt={uploadImg} />
-                </Typography>
-              </Box>
-              <List>
-                {files.map((file) => (
-                  <ListItem
-                    sx={{ mt: '10px' }}
-                    key={file.name}
-                    secondaryAction={
-                      <Button
-                        sx={{
-                          border: '2px solid #000',
-                          backgroundColor: 'black',
-                          color: 'white',
-                          '&:hover': {
-                            border: '2px solid #000',
-                            backgroundColor: 'white',
-                            color: 'black',
-                          },
-                        }}
-                        onClick={() => removeFile(file.name)}
-                      >
-                        Remove
-                      </Button>
-                    }
-                  >
-                    <ListItemText primary={file.name} />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton
-                type="submit"
-                className="button"
-                loading={methods.formState.isSubmitting}
-                onClick={onSubmit}
-              >
-                Save
-              </LoadingButton>
-            </Stack>
+
+            <Upload
+              multiple
+              thumbnail={false}
+              files={files}
+              onDrop={handleDropMultiFile}
+              onRemove={handleRemoveFile}
+              onRemoveAll={handleRemoveAllFiles}
+              onUpload={onSubmit}
+            />
           </Stack>
         </Stack>
       </Card>
@@ -213,7 +157,7 @@ export default function UploadDocument() {
     <>
       <ToastContainer />
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Typography variant="h4">Upload Files</Typography>
+        <Typography variant="h4">Upload Documents</Typography>
         <Box
           sx={{
             mt: 5,

@@ -12,13 +12,14 @@ import { toast, ToastContainer } from 'react-toastify';
 import FormProvider from '../../hook-form';
 import RHFTextField from '../../hook-form/rhf-text-field';
 import RHFAutocomplete from '../../hook-form/rhf-autocomplete';
-// ----------------------------------------------------------------------
+import { Button } from '@mui/material';
 
 export default function UserNewEditForm({ vendorCode, vendorContact }) {
   const [currentUser, setCurrentUser] = useState();
   const [commodities, setCommodities] = useState([]);
   const notify = () => toast.success('User details updated successfully');
   const notifyError = () => toast.error('Something went wrong');
+  const [disable, setDisable] = useState(true);
 
   useEffect(() => {
     fetchUser();
@@ -107,13 +108,16 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
       .then((res) => {
         notify();
       })
-      .catch((err) => notifyError());
+      .catch((err) => {
+        notifyError()
+
+      });
   });
 
   return (
     <>
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <ToastContainer/>
+        <ToastContainer />
         <Grid container>
           <Grid item md={4}>
             <Box sx={{ ml: { md: '60px', xs: '0' }, mt: '60px' }}>
@@ -144,7 +148,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                   md: 'repeat(3, 1fr)',
                 }}
               >
-                <RHFTextField name="name" label="Full Name"/>
+                <RHFTextField name="name" label="Full Name" disabled={disable} />
                 <RHFAutocomplete
                   name="milling_type"
                   type="milling_type"
@@ -153,8 +157,10 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                   fullWidth
                   options={milingType.map((option) => option)}
                   getOptionLabel={(option) => option}
+                  disabled={disable}
                 />
                 <RHFAutocomplete
+                  disabled={disable}
                   name="commodity"
                   type="commodity"
                   label="Commodity"
@@ -163,11 +169,11 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                   options={commodities.map((option) => option?.commodity_name)}
                   getOptionLabel={(option) => option}
                 />
-                <RHFTextField name="quantity" label="Quantity" />
-                <RHFTextField name="contact_person" label="Contact Person"/>
-                <RHFTextField name="phone_number" label="Phone Number"/>
-                <RHFTextField name="pan_number" label="Pan Number"/>
-                <RHFTextField name="gst_number" label="GST Number"/>
+                <RHFTextField name="quantity" label="Quantity" disabled={disable} />
+                <RHFTextField name="contact_person" label="Contact Person" disabled={disable} />
+                <RHFTextField name="phone_number" label="Phone Number" disabled={disable} />
+                <RHFTextField name="pan_number" label="Pan Number" disabled={disable} />
+                <RHFTextField name="gst_number" label="GST Number" disabled={disable} />
               </Box>
             </Card>
           </Grid>
@@ -203,7 +209,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                 }}
               >
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 2', md: 'span 4' }}>
-                  <RHFTextField name="address" label="Address" fullWidth/>
+                  <RHFTextField name="address" label="Address" fullWidth disabled={disable} />
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
                   <RHFAutocomplete
@@ -214,6 +220,7 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                     fullWidth
                     options={districts.map((option) => option)}
                     getOptionLabel={(option) => option}
+                    disabled={disable}
                   />
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
@@ -225,13 +232,15 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
                     fullWidth
                     options={states.map((option) => option)}
                     getOptionLabel={(option) => option}
+                    disabled={disable}
                   />
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
-                  <RHFTextField name="pincode" label="Pin Code" fullWidth/>
+                  <RHFTextField name="pincode" label="Pin Code" fullWidth disabled={disable} />
                 </Box>
                 <Box gridColumn={{ xs: 'span 1', sm: 'span 1', md: 'span 2' }}>
                   <RHFAutocomplete
+                    disabled={disable}
                     name="village"
                     type="village"
                     label="Village"
@@ -245,10 +254,19 @@ export default function UserNewEditForm({ vendorCode, vendorContact }) {
             </Card>
           </Grid>
         </Grid>
-        <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-          <LoadingButton type="submit" className="button" loading={isSubmitting}>
-            Save
-          </LoadingButton>
+        <Stack display={'flex'} alignItems={'flex-end'} sx={{ mt: 3 }}>
+          <Box>
+            <Button color="inherit" variant="outlined" sx={{ mr: "20px" }} onClick={() => setDisable(false)}>
+              Edit
+            </Button>
+            <LoadingButton
+              type='submit'
+              loading={isSubmitting}
+              variant="contained"
+            >
+              Save
+            </LoadingButton>
+          </Box>
         </Stack>
       </FormProvider>
     </>
@@ -259,4 +277,3 @@ UserNewEditForm.propTypes = {
   vendorCode: PropTypes.string.isRequired,
   vendorContact: PropTypes.string.isRequired,
 };
-``;
