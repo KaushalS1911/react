@@ -41,7 +41,6 @@ export default function UploadEvidence() {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log('data : ', data);
     const formDataList = files
       .map((file, index) => {
         if (file) {
