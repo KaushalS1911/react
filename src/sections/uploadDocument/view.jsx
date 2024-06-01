@@ -134,13 +134,12 @@ export default function UploadDocument() {
                   </FormControl>
                 )}
               />
-              {/* <RHFTextField name="vendor_code" label="Vendor Code" value={vendorCode} disabled /> */}
             </Box>
             <Typography variant="subtitle2">Upload Your Document</Typography>
 
             <Upload
               multiple
-              thumbnail={false}
+              thumbnail={true}
               files={files}
               onDrop={handleDropMultiFile}
               onRemove={handleRemoveFile}
