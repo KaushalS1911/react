@@ -53,13 +53,13 @@ export function useNavData() {
         // subheader: 'overview v5.7.0',
         items: [
           { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'Basic Information', path: paths.dashboard.basicInfo, icon: ICONS.dashboard },
-          { title: 'Upload Document', path: paths.dashboard.uploadDocument, icon: ICONS.file },
+          { title: 'Basic Information', path: paths.dashboard.basicInfo, icon: ICONS.user },
+          { title: 'Upload Document', path: paths.dashboard.uploadDocument, icon: ICONS.folder },
           { title: 'Upload Evidence', path: paths.dashboard.uploadEvidence, icon: ICONS.file },
           {
             title: 'Place Order',
             path: paths.dashboard.placeOrder,
-            icon: ICONS.ecommerce,
+            icon: ICONS.order,
           },
         ],
       },

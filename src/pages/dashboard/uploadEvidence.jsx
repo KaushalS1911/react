@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Upload Evidence</title>
+        <title> Dashboard | Upload Evidence</title>
       </Helmet>
 
       <UploadEvidence />

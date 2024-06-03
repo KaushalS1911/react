@@ -21,7 +21,7 @@ export default function UploadDocument() {
   const settings = useSettingsContext();
   const [vendorCode, setVendorCode] = useState('');
   const [files, setFiles] = useState([]);
-  const notify = () => toast.success('Duments Uploaded');
+  const notify = () => toast.success('Documents Uploaded');
   const notifyError = () => toast.error('Failed to Upload');
 
   const defaultValues = useMemo(
@@ -29,7 +29,7 @@ export default function UploadDocument() {
       doc_type: '',
       vendor_code: '',
     }),
-    []
+    [],
   );
 
   const methods = useForm({
@@ -61,7 +61,7 @@ export default function UploadDocument() {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        }
+        },
       );
       if (response.data.status == '201') {
         notify();
@@ -80,28 +80,28 @@ export default function UploadDocument() {
     { label: 'Pan Number', key: 'pan_number' },
   ];
 
-    const handleDropMultiFile = useCallback(
-      (acceptedFiles) => {
-        setFiles([
-          ...files,
-          ...acceptedFiles.map((newFile) =>
-            Object.assign(newFile, {
-              preview: URL.createObjectURL(newFile),
-            })
-          ),
-        ]);
-      },
-      [files]
-    );
+  const handleDropMultiFile = useCallback(
+    (acceptedFiles) => {
+      setFiles([
+        ...files,
+        ...acceptedFiles.map((newFile) =>
+          Object.assign(newFile, {
+            preview: URL.createObjectURL(newFile),
+          }),
+        ),
+      ]);
+    },
+    [files],
+  );
 
-   const handleRemoveFile = (inputFile) => {
-     const filesFiltered = files.filter((fileFiltered) => fileFiltered !== inputFile);
-     setFiles(filesFiltered);
-   };
+  const handleRemoveFile = (inputFile) => {
+    const filesFiltered = files.filter((fileFiltered) => fileFiltered !== inputFile);
+    setFiles(filesFiltered);
+  };
 
-   const handleRemoveAllFiles = () => {
-     setFiles([]);
-   };
+  const handleRemoveAllFiles = () => {
+    setFiles([]);
+  };
 
   const renderDetails = (
     <>
@@ -139,6 +139,11 @@ export default function UploadDocument() {
 
             <Upload
               multiple
+              accept={{
+                'image/jpeg': [],
+                'image/jpg': [],
+                'image/png': [],
+              }}
               thumbnail={true}
               files={files}
               onDrop={handleDropMultiFile}
@@ -154,7 +159,7 @@ export default function UploadDocument() {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer/>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
         <Typography variant="h4">Upload Documents</Typography>
         <Box

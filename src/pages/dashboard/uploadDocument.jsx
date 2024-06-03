@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Upload Documents</title>
+        <title> Dashboard | Upload Documents</title>
       </Helmet>
 
       <UploadDocument />

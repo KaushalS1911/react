@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>NCCF csp portal</title>
+        <title>NCCF CSP Portal</title>
       </Helmet>
       <NavbarHeader />
       <Box

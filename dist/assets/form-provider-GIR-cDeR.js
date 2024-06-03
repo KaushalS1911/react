@@ -1,1 +1,0 @@
-import{j as o,aX as t,J as r}from"./index-vuQvxRF2.js";function i({children:e,onSubmit:s,methods:n}){return o.jsx(t,{...n,children:o.jsx("form",{onSubmit:s,children:e})})}i.propTypes={children:r.node,methods:r.object,onSubmit:r.func};export{i as F};

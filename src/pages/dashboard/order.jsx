@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Place Order</title>
+        <title> Dashboard | Place Order</title>
       </Helmet>
 
       <OrderNewForm />

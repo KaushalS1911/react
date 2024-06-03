@@ -9,7 +9,6 @@ import { useSettingsContext } from 'src/components/settings';
 import AppNewInvoice from '../app-new-invoice';
 import AppWidgetSummary from '../app-widget-summary';
 import axios from 'axios';
-import order from '../../../pages/dashboard/order';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +40,6 @@ export default function OverviewAppView({ vendorCode }) {
     });
   }
 
-  console.log(stats)
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Grid container spacing={3}>
@@ -78,12 +76,12 @@ export default function OverviewAppView({ vendorCode }) {
         </Grid>
         <Grid xs={12} lg={12}>
           <AppNewInvoice
-            title="New Invoice"
+            title="Orders"
             tableData={orderList}
             tableLabels={[
-              { id: 'id', label: 'Invoice ID' },
-              { id: 'category', label: 'Category' },
-              { id: 'price', label: 'Price' },
+              { id: 'id', label: 'Order ID' },
+              { id: 'category', label: 'Commodity' },
+              { id: 'price', label: 'Quantity' },
               { id: 'status', label: 'Status' },
               { id: '' },
             ]}

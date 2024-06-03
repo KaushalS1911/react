@@ -20,6 +20,11 @@ import logo from '../../../assets/images/header/logo1@4x.png';
 import NavbarHeader from '../header/Header';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import Link from '@mui/material/Link';
+import { RouterLink } from '../../../routes/components';
+import Typography from '@mui/material/Typography';
+import { paths } from '../../../routes/paths';
+import Stack from '@mui/material/Stack';
 function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit, control } = useForm({
@@ -48,7 +53,7 @@ function Login() {
   return (
     <>
       <Helmet>
-        <title>NCCF csp portal</title>
+        <title>NCCF CSP Portal | Login</title>
       </Helmet>
       <NavbarHeader />
       <Container maxWidth="sm">
@@ -118,9 +123,18 @@ function Login() {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Button variant="contained" color="primary" fullWidth type="submit">
+                    <Button variant="contained" size={'large'} color="primary" fullWidth type="submit">
                       Sign In
                     </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Stack direction="row" sx={{mt:2, justifyContent: "center"}} spacing={1} >
+                      <Typography variant="subtitle2">Become NCCF CSP?</Typography>
+
+                      <Link component={RouterLink} href={'/register'} variant="subtitle2">
+                        Create an account
+                      </Link>
+                    </Stack>
                   </Grid>
                 </Grid>
               </form>

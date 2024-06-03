@@ -7,10 +7,9 @@ import Stack from '@mui/material/Stack';
 import { ToastContainer, toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
 import { MenuItem, Select, FormControl, InputLabel, Grid, Typography, Button } from '@mui/material';
-import FormProvider from 'src/components/hook-form/form-provider'; // Adjust the import path as needed
+import FormProvider from 'src/components/hook-form/form-provider';
 import axios from 'axios';
-import { LoadingButton } from '@mui/lab';
-import { MultiFilePreview, SingleFilePreview, Upload } from 'src/components/upload';
+import { Upload } from 'src/components/upload';
 import Iconify from 'src/components/iconify';
 
 export default function UploadEvidence() {
@@ -108,6 +107,11 @@ export default function UploadEvidence() {
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">Upload Your Document</Typography>
           <Upload
+            accept={{
+              'image/jpeg': [],
+              'image/jpg': [],
+              'image/png': [],
+            }}
             file={files[index]}
             onDrop={handleDropSingleFile(index)}
             onDelete={() =>
@@ -151,6 +155,12 @@ export default function UploadEvidence() {
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">Upload Your Document</Typography>
           <Upload
+            accept={{
+              'video/mp4': [],
+              'video/avi': [],
+              'video/mkv': [],
+              'video/mov': [],
+            }}
             multiple
             thumbnail={true}
             files={files}

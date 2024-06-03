@@ -1,29 +1,34 @@
 import PropTypes from 'prop-types';
 
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
+// import Button from '@mui/material/Button';
+// import Divider from '@mui/material/Divider';
+// import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import CardHeader from '@mui/material/CardHeader';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 
-import { fCurrency } from 'src/utils/format-number';
-
 import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-import { TableHeadCustom } from 'src/components/table';
+import { TableHeadCustom ,TablePaginationCustom, getComparator, useTable} from 'src/components/table';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { applyFilter } from '../../layouts/common/searchbar/utils';
 
 // ----------------------------------------------------------------------
 
 export default function AppNewInvoice({ title, subheader, tableData, tableLabels, ...other }) {
+  const table = useTable();
+
+  const dataFiltered = applyFilter({
+    inputData: tableData || [],
+    comparator: getComparator(table.order, table.orderBy),
+  });
+
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
@@ -33,8 +38,13 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
           <Table sx={{ minWidth: 680 }}>
             <TableHeadCustom headLabel={tableLabels} />
 
+
             <TableBody>
-              {tableData && tableData.length !==0 && tableData.map((row) => (
+              {dataFiltered
+                .slice(
+                  table.page * table.rowsPerPage,
+                  table.page * table.rowsPerPage + table.rowsPerPage
+                ).map((row) => (
                 <AppNewInvoiceRow key={row.id} row={row} />
               ))}
             </TableBody>
@@ -42,17 +52,16 @@ export default function AppNewInvoice({ title, subheader, tableData, tableLabels
         </Scrollbar>
       </TableContainer>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
-
-      <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
-        >
-          View All
-        </Button>
-      </Box>
+      <TablePaginationCustom
+        count={dataFiltered.length}
+        page={table.page}
+        rowsPerPage={table.rowsPerPage}
+        onPageChange={table.onChangePage}
+        onRowsPerPageChange={table.onChangeRowsPerPage}
+        //
+        dense={table.dense}
+        onChangeDense={table.onChangeDense}
+      />
     </Card>
   );
 }
@@ -111,41 +120,41 @@ function AppNewInvoiceRow({ row }) {
           </Label>
         </TableCell>
 
-        <TableCell align="right" sx={{ pr: 1 }}>
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell>
+        {/*<TableCell align="right" sx={{ pr: 1 }}>*/}
+        {/*  <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>*/}
+        {/*    <Iconify icon="eva:more-vertical-fill" />*/}
+        {/*  </IconButton>*/}
+        {/*</TableCell>*/}
       </TableRow>
 
-      <CustomPopover
-        open={popover.open}
-        onClose={popover.onClose}
-        arrow="right-top"
-        sx={{ width: 160 }}
-      >
-        <MenuItem onClick={handleDownload}>
-          <Iconify icon="eva:cloud-download-fill" />
-          Download
-        </MenuItem>
+      {/*<CustomPopover*/}
+      {/*  open={popover.open}*/}
+      {/*  onClose={popover.onClose}*/}
+      {/*  arrow="right-top"*/}
+      {/*  sx={{ width: 160 }}*/}
+      {/*>*/}
+      {/*  <MenuItem onClick={handleDownload}>*/}
+      {/*    <Iconify icon="eva:cloud-download-fill" />*/}
+      {/*    Download*/}
+      {/*  </MenuItem>*/}
 
-        <MenuItem onClick={handlePrint}>
-          <Iconify icon="solar:printer-minimalistic-bold" />
-          Print
-        </MenuItem>
+      {/*  <MenuItem onClick={handlePrint}>*/}
+      {/*    <Iconify icon="solar:printer-minimalistic-bold" />*/}
+      {/*    Print*/}
+      {/*  </MenuItem>*/}
 
-        <MenuItem onClick={handleShare}>
-          <Iconify icon="solar:share-bold" />
-          Share
-        </MenuItem>
+      {/*  <MenuItem onClick={handleShare}>*/}
+      {/*    <Iconify icon="solar:share-bold" />*/}
+      {/*    Share*/}
+      {/*  </MenuItem>*/}
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+      {/*  <Divider sx={{ borderStyle: 'dashed' }} />*/}
 
-        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
-          <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
-        </MenuItem>
-      </CustomPopover>
+      {/*  <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>*/}
+      {/*    <Iconify icon="solar:trash-bin-trash-bold" />*/}
+      {/*    Delete*/}
+      {/*  </MenuItem>*/}
+      {/*</CustomPopover>*/}
     </>
   );
 }

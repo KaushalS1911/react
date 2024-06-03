@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard</title>
+        <title> Dashboard </title>
       </Helmet>
 
       {/* <OrderNewForm /> */}

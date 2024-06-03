@@ -32,12 +32,14 @@ export default function Upload({
   onUpload,
   onRemove,
   onRemoveAll,
+  accept,
   sx,
   ...other
 }) {
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple,
     disabled,
+    accept,
     ...other,
   });
 
@@ -113,7 +115,7 @@ export default function Upload({
             variant="contained"
             onClick={onUpload}
             startIcon={<Iconify icon="eva:cloud-upload-fill" />}
-            
+
           >
             Save
           </Button>
@@ -173,6 +175,7 @@ export default function Upload({
 }
 
 Upload.propTypes = {
+  accept: PropTypes.accept,
   disabled: PropTypes.object,
   error: PropTypes.bool,
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
